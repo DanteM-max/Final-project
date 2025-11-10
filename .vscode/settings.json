@@ -1,0 +1,9 @@
+{
+    "github.codespaces.defaultExtensions": [
+        "ritwickdey.liveserver",
+        "GitHub.codespaces",
+        "GitHub.vscode-pull-request-github",
+        "Github.copilot"
+    ],
+    "editor.inlineSuggest.suppressSuggestions": true
+}
