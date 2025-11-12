@@ -1,0 +1,64 @@
+/*Credit to Copilot for making the CSS!!!!!*/
+#board {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 8px;
+    padding: 20px;
+    background-color: #1e40af;
+    border-radius: 10px;
+    width: fit-content;
+}
+
+.cell {
+    width: 60px;
+    height: 60px;
+    background-color: white;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.2s;
+}
+
+.cell:hover {
+    background-color: #f0f0f0;
+}
+
+.cell.player1 {
+    background-color: #ef4444;
+}
+
+.cell.player2 {
+    background-color: #fbbf24;
+}
+
+#controls {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 8px;
+    margin-top: 15px;
+    padding: 0 20px;
+    width: fit-content;
+}
+
+.drop-button {
+    width: 60px;
+    height: 40px;
+    background-color: #1e75af;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 20px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.drop-button:hover {
+    background-color: #0e659f;
+}
+
+.drop-button:active {
+    background-color: #172a6b;
+}
