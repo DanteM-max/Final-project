@@ -186,6 +186,36 @@ function checkRow() {
     
 //}
 
-function checkDiagonal() {
-    
+function checkOneDiagonal(cellIndex) {
+    let cellArray1 = [];
+    let cellArray2 = [];
+    let cellArray3 = [];
+    let cellArray4 = [];
+    for (let i = 0; i < 4; i++) {
+        //Credit to copilot for teaching me Array.from()!
+        let newClassList = Array.from(cells[(cellIndex) - (i*6)].classList);
+        let lastClass = newClassList[newClassList.length - 1];
+        cellArray1.push(lastClass);
+    }
+    for (let i = 0; i < 4; i++) {
+        //Credit to copilot for teaching me Array.from()!
+        let newClassList = Array.from(cells[(cellIndex) - (i*8)].classList);
+        let lastClass = newClassList[newClassList.length - 1];
+        cellArray2.push(lastClass);
+    }
+    for (let i = 0; i < 4; i++) {
+        //Credit to copilot for teaching me Array.from()!
+        let newClassList = Array.from(cells[(cellIndex) + (i*6)].classList);
+        let lastClass = newClassList[newClassList.length - 1];
+        cellArray3.push(lastClass);
+    }
+    for (let i = 0; i < 4; i++) {
+        //Credit to copilot for teaching me Array.from()!
+        let newClassList = Array.from(cells[(cellIndex) + (i*8)].classList);
+        let lastClass = newClassList[newClassList.length - 1];
+        cellArray4.push(lastClass);
+    }
+    if (cellArray1[0] == "player1" && cellArray1[1] == "player1" && cellArray1[2] == "player1" && cellArray1[3] == "player1") {
+        return "P1";
+    } else if (cellArray2[0] == "player1" && cellArray2[1] == "player1" && cellArray2[2] == "player1" && cellArray2[3] == "player1")
 }
