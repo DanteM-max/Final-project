@@ -1,12 +1,12 @@
-//Credit to Copilot to fixing bugs!
+//Credit to Copilot to fixing bugs! If it looks too much like AI, it's probably just bug fixes after school. 
 
 // Get all cells !!!-Credit to Copilot for teaching me querySelector and speeding up the coding process!-!!!
 let cells = document.querySelectorAll(".cell");
 for (let i = 0; i < cells.length; i++) {
     cells[i].classList.add("vacant");
-    console.log("Class added to cell " + (i + 1));
+    addElementForInspection("Class added to cell " + (i + 1));
 }
-console.log("Cells initialized!")
+addElementForInspection("Cells initialized!")
 
 function getCellsInColumn(column) {
     let cellsInColumn = [];
@@ -33,7 +33,7 @@ function getAvailableColumns() {
         for (let i = 0; i < colCells.length; i++) {
             if (colCells[i] && colCells[i].classList.contains("vacant")) {
                 available.push(col);
-                console.log(available);
+                addElementForInspection(available);
                 break;
             }
         }
@@ -42,13 +42,13 @@ function getAvailableColumns() {
 }
 
 // Append event listeners to each drop button
-
+// Append event listeners to each drop button
 
 let dropButtons = document.querySelectorAll(".drop-button");
 for (let i = 0; i < dropButtons.length; i++) {
     dropButtons[i].addEventListener("click", beginPlay);
-    console.log("Event listener added!");
-} 
+    addElementForInspection("Event listener added!");
+}
 
 // Function to add a disc to the selected column
 function addDisc(column, playerNum) {
@@ -77,7 +77,7 @@ function beginPlay(event) {
     // Enemy (yellow) picks a random available column
     let available = getAvailableColumns();
     if (available.length == 0) {
-        console.log("beginPlay: board full or no available columns for enemy.");
+        addElementForInspection("beginPlay: board full or no available columns for enemy.");
         return;
     }
     // Random choice among available columns
@@ -86,6 +86,7 @@ function beginPlay(event) {
 
     checkColumn();
     checkRow();
+    checkDiagonals();
 }
 //Credit to copilot for bug fixes and comments
 function checkColumn() {
@@ -102,28 +103,28 @@ function checkColumn() {
             if (cell.classList.contains("player1")) {
                 playerOneDiscs++;
                 playerTwoDiscs = 0;
-                console.log("Checked cell. Player one is one disc closer to a connect 4!");
+                addElementForInspection("Checked cell. Player one is one disc closer to a connect 4!");
             } else if (cell.classList.contains("player2")) {
                 playerTwoDiscs++;
                 playerOneDiscs = 0;
-                console.log("Checked cell. Player two is one disc closer to a connect 4!");
+                addElementForInspection("Checked cell. Player two is one disc closer to a connect 4!");
             } else {
                 // empty cell: reset both counters
                 playerOneDiscs = 0;
                 playerTwoDiscs = 0;
-                console.log("Checked cell. Empty!");
+                addElementForInspection("Checked cell. Empty!");
             }
 
             if (playerOneDiscs == 4) {
                 let winningP = document.createElement("p");
-                winningP.innerText = "Player one won!";
+                winningP.innerText = "Player one won with a column!";
                 let main = document.getElementById("main");
                 main.appendChild(winningP);
                 return;
             }
             if (playerTwoDiscs == 4) {
                 let winningP = document.createElement("p");
-                winningP.innerText = "Player two won!";
+                winningP.innerText = "Player two won with a column!";
                 let main = document.getElementById("main");
                 main.appendChild(winningP);
                 return;
@@ -146,28 +147,28 @@ function checkRow() {
             if (cell.classList.contains("player1")) {
                 playerOneDiscs++;
                 playerTwoDiscs = 0;
-                console.log("Checked cell. Player one is one disc closer to a connect 4!");
+                addElementForInspection("Checked cell. Player one is one disc closer to a connect 4!");
             } else if (cell.classList.contains("player2")) {
                 playerTwoDiscs++;
                 playerOneDiscs = 0;
-                console.log("Checked cell. Player two is one disc closer to a connect 4!");
+                addElementForInspection("Checked cell. Player two is one disc closer to a connect 4!");
             } else {
                 // empty cell: reset both counters
                 playerOneDiscs = 0;
                 playerTwoDiscs = 0;
-                console.log("Checked cell. Empty!");
+                addElementForInspection("Checked cell. Empty!");
             }
 
             if (playerOneDiscs == 4) {
                 let winningP = document.createElement("p");
-                winningP.innerText = "Player one won!";
+                winningP.innerText = "Player one won with a row!";
                 let main = document.getElementById("main");
                 main.appendChild(winningP);
                 return;
             }
             if (playerTwoDiscs == 4) {
                 let winningP = document.createElement("p");
-                winningP.innerText = "Player two won!";
+                winningP.innerText = "Player two won with a row!";
                 let main = document.getElementById("main");
                 main.appendChild(winningP);
                 return;
@@ -186,36 +187,143 @@ function checkRow() {
     
 //}
 
+// Previous diagonal-checking code (kept commented for reference). Thanks, Copilot for commenting this out! Also, credit to Copilot for all of the bug fixes related to the diagonals. I was stumped!
+/*
+function initializeCellForDiagonal(cellNum) {
+    let cell1 = cells[cellNum];
+    let newCellPosibilities = [(cellNum-8),(cellNum-6),(cellNum+6),(cellNum+8)];
+    let cell2Possibilities = [];
+    for (let i = 0; i < newCellPosibilities.length; i++) {
+        cell2Possibilities.push(cells[newCellPosibilities[i]]);
+    }
+}
+
 function checkOneDiagonal(cellIndex) {
     let cellArray1 = [];
     let cellArray2 = [];
     let cellArray3 = [];
     let cellArray4 = [];
     for (let i = 0; i < 4; i++) {
-        //Credit to copilot for teaching me Array.from()!
         let newClassList = Array.from(cells[(cellIndex) - (i*6)].classList);
         let lastClass = newClassList[newClassList.length - 1];
         cellArray1.push(lastClass);
     }
     for (let i = 0; i < 4; i++) {
-        //Credit to copilot for teaching me Array.from()!
         let newClassList = Array.from(cells[(cellIndex) - (i*8)].classList);
         let lastClass = newClassList[newClassList.length - 1];
         cellArray2.push(lastClass);
     }
     for (let i = 0; i < 4; i++) {
-        //Credit to copilot for teaching me Array.from()!
         let newClassList = Array.from(cells[(cellIndex) + (i*6)].classList);
         let lastClass = newClassList[newClassList.length - 1];
         cellArray3.push(lastClass);
     }
     for (let i = 0; i < 4; i++) {
-        //Credit to copilot for teaching me Array.from()!
         let newClassList = Array.from(cells[(cellIndex) + (i*8)].classList);
         let lastClass = newClassList[newClassList.length - 1];
         cellArray4.push(lastClass);
     }
-    if (cellArray1[0] == "player1" && cellArray1[1] == "player1" && cellArray1[2] == "player1" && cellArray1[3] == "player1") {
+    if (cellArray1[0] == "player1" && cellArray1[1] == "player1" && cellArray1[2] == "player1" && cellArray1[3] == "player1" || cellArray2[0] == "player1" && cellArray2[1] == "player1" && cellArray2[2] == "player1" && cellArray2[3] == "player1" || cellArray3[0] == "player1" && cellArray3[1] == "player1" && cellArray3[2] == "player1" && cellArray3[3] == "player1" || cellArray4[0] == "player1" && cellArray4[1] == "player1" && cellArray4[2] == "player1" && cellArray4[3] == "player1") {
         return "P1";
-    } else if (cellArray2[0] == "player1" && cellArray2[1] == "player1" && cellArray2[2] == "player1" && cellArray2[3] == "player1")
+    } else if (cellArray1[0] == "player2" && cellArray1[1] == "player2" && cellArray1[2] == "player2" && cellArray1[3] == "player2" || cellArray2[0] == "player2" && cellArray2[1] == "player2" && cellArray2[2] == "player2" && cellArray2[3] == "player2" || cellArray3[0] == "player2" && cellArray3[1] == "player2" && cellArray3[2] == "player2" && cellArray3[3] == "player2" || cellArray4[0] == "player2" && cellArray4[1] == "player2" && cellArray4[2] == "player2" && cellArray4[3] == "player2") {
+        return "P2";
+    } else {
+        return null;
+    }
+}
+
+function checkDiagonals() {
+    for (let i = 0; i < cells.length; i++) {
+        let winningPlayer = checkOneDiagonal(i);
+        if (!winningPlayer) continue;
+        if (winningPlayer == "P1") {
+            let winningP = document.createElement("p");
+            winningP.innerText = "Player one won with a diagonal!";
+            let main = document.getElementById("main");
+            main.appendChild(winningP);
+            return;
+        }
+        if (winningPlayer == "P2") {
+            let winningP = document.createElement("p");
+            winningP.innerText = "Player two won! with a diagonal";
+            let main = document.getElementById("main");
+            main.appendChild(winningP);
+            return;
+        }
+    }
+}
+*/
+
+// Fixed diagonal detection implementation (credit: Copilot). The original code
+// above is left commented for reference (credit: me).
+
+function announceWin(text) {
+    let winningP = document.createElement("p");
+    winningP.innerText = text;
+    let main = document.getElementById("main");
+    main.appendChild(winningP);
+}
+//Sorry if this makes it more Ai-generated than it's supposed to be. I asked it to fix bugs, and my original functions for the check diagonal code are in the comments, if that helps. 
+function checkDiagonals() {
+  // board is 7 columns (0..6) and 6 rows (0..5)
+  // DOWN-RIGHT diagonals (r -> r+3, c -> c+3) : start rows 0..2, cols 0..3
+  for (let r = 0; r <= 2; r++) {
+    for (let c = 0; c <= 3; c++) {
+      let idx = r * 7 + c;
+      // player1
+      if (
+        cells[idx] && cells[idx].classList.contains("player1") &&
+        cells[idx + 8] && cells[idx + 8].classList.contains("player1") &&
+        cells[idx + 16] && cells[idx + 16].classList.contains("player1") &&
+        cells[idx + 24] && cells[idx + 24].classList.contains("player1")
+      ) {
+        announceWin("Player one won with a diagonal!");
+        return;
+      }
+      // player2
+      if (
+        cells[idx] && cells[idx].classList.contains("player2") &&
+        cells[idx + 8] && cells[idx + 8].classList.contains("player2") &&
+        cells[idx + 16] && cells[idx + 16].classList.contains("player2") &&
+        cells[idx + 24] && cells[idx + 24].classList.contains("player2")
+      ) {
+        announceWin("Player two won with a diagonal!");
+        return;
+      }
+    }
+  }
+
+  // UP-RIGHT diagonals (r -> r-3, c -> c+3) : start rows 3..5, cols 0..3
+  for (let r = 3; r <= 5; r++) {
+    for (let c = 0; c <= 3; c++) {
+      let idx = r * 7 + c;
+      // player1
+      if (
+        cells[idx] && cells[idx].classList.contains("player1") &&
+        cells[idx - 6] && cells[idx - 6].classList.contains("player1") &&
+        cells[idx - 12] && cells[idx - 12].classList.contains("player1") &&
+        cells[idx - 18] && cells[idx - 18].classList.contains("player1")
+      ) {
+        announceWin("Player one won with a diagonal!");
+        return;
+      }
+      // player2
+      if (
+        cells[idx] && cells[idx].classList.contains("player2") &&
+        cells[idx - 6] && cells[idx - 6].classList.contains("player2") &&
+        cells[idx - 12] && cells[idx - 12].classList.contains("player2") &&
+        cells[idx - 18] && cells[idx - 18].classList.contains("player2")
+      ) {
+        announceWin("Player two won with a diagonal!");
+        return;
+      }
+        }
+    }
+}
+
+function addElementForInspection(text) {
+    let h1 = document.createElement("h1");
+    h1.innerText = text;
+    let main = document.getElementById("main");
+    main.appendChild(h1);
 }
