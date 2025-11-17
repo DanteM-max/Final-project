@@ -10,61 +10,64 @@
 </head>
 <body>
     <main id="main">
-        <div id="board">
-            <!--Thanks to Copilot for generating ALL 42 of these cells!-->
-            <div class="cell column0 row0"></div>
-            <div class="cell column1 row0"></div>
-            <div class="cell column2 row0"></div>
-            <div class="cell column3 row0"></div>
-            <div class="cell column4 row0"></div>
-            <div class="cell column5 row0"></div>
-            <div class="cell column6 row0"></div>
-            <div class="cell column0 row1"></div>
-            <div class="cell column1 row1"></div>
-            <div class="cell column2 row1"></div>
-            <div class="cell column3 row1"></div>
-            <div class="cell column4 row1"></div>
-            <div class="cell column5 row1"></div>
-            <div class="cell column6 row1"></div>
-            <div class="cell column0 row2"></div>
-            <div class="cell column1 row2"></div>
-            <div class="cell column2 row2"></div>
-            <div class="cell column3 row2"></div>
-            <div class="cell column4 row2"></div>
-            <div class="cell column5 row2"></div>
-            <div class="cell column6 row2"></div>
-            <div class="cell column0 row3"></div>
-            <div class="cell column1 row3"></div>
-            <div class="cell column2 row3"></div>
-            <div class="cell column3 row3"></div>
-            <div class="cell column4 row3"></div>
-            <div class="cell column5 row3"></div>
-            <div class="cell column6 row3"></div>
-            <div class="cell column0 row4"></div>
-            <div class="cell column1 row4"></div>
-            <div class="cell column2 row4"></div>
-            <div class="cell column3 row4"></div>
-            <div class="cell column4 row4"></div>
-            <div class="cell column5 row4"></div>
-            <div class="cell column6 row4"></div>
-            <div class="cell column0 row5"></div>
-            <div class="cell column1 row5"></div>
-            <div class="cell column2 row5"></div>
-            <div class="cell column3 row5"></div>
-            <div class="cell column4 row5"></div>
-            <div class="cell column5 row5"></div>
-            <div class="cell column6 row5"></div>
+        <div id="game">
+            <div id="board">
+                <!--Thanks to Copilot for generating ALL 42 of these cells!-->
+                <div class="cell column0 row0"></div>
+                <div class="cell column1 row0"></div>
+                <div class="cell column2 row0"></div>
+                <div class="cell column3 row0"></div>
+                <div class="cell column4 row0"></div>
+                <div class="cell column5 row0"></div>
+                <div class="cell column6 row0"></div>
+                <div class="cell column0 row1"></div>
+                <div class="cell column1 row1"></div>
+                <div class="cell column2 row1"></div>
+                <div class="cell column3 row1"></div>
+                <div class="cell column4 row1"></div>
+                <div class="cell column5 row1"></div>
+                <div class="cell column6 row1"></div>
+                <div class="cell column0 row2"></div>
+                <div class="cell column1 row2"></div>
+                <div class="cell column2 row2"></div>
+                <div class="cell column3 row2"></div>
+                <div class="cell column4 row2"></div>
+                <div class="cell column5 row2"></div>
+                <div class="cell column6 row2"></div>
+                <div class="cell column0 row3"></div>
+                <div class="cell column1 row3"></div>
+                <div class="cell column2 row3"></div>
+                <div class="cell column3 row3"></div>
+                <div class="cell column4 row3"></div>
+                <div class="cell column5 row3"></div>
+                <div class="cell column6 row3"></div>
+                <div class="cell column0 row4"></div>
+                <div class="cell column1 row4"></div>
+                <div class="cell column2 row4"></div>
+                <div class="cell column3 row4"></div>
+                <div class="cell column4 row4"></div>
+                <div class="cell column5 row4"></div>
+                <div class="cell column6 row4"></div>
+                <div class="cell column0 row5"></div>
+                <div class="cell column1 row5"></div>
+                <div class="cell column2 row5"></div>
+                <div class="cell column3 row5"></div>
+                <div class="cell column4 row5"></div>
+                <div class="cell column5 row5"></div>
+                <div class="cell column6 row5"></div>
+            </div>
+            <div id="controls">
+                <!--Credit to Copilot for the buttons! I would not have found that arrow character!-->
+                <button class="drop-button" id="col-0">↓</button>
+                <button class="drop-button" id="col-1">↓</button>
+                <button class="drop-button" id="col-2">↓</button>
+                <button class="drop-button" id="col-3">↓</button>
+                <button class="drop-button" id="col-4">↓</button>
+                <button class="drop-button" id="col-5">↓</button>
+                <button class="drop-button" id="col-6">↓</button>
+            </div>
         </div>
-        <div id="controls">
-            <!--Credit to Copilot for the buttons! I would not have found that arrow character!-->
-            <button class="drop-button" id="col-0">↓</button>
-            <button class="drop-button" id="col-1">↓</button>
-            <button class="drop-button" id="col-2">↓</button>
-            <button class="drop-button" id="col-3">↓</button>
-            <button class="drop-button" id="col-4">↓</button>
-            <button class="drop-button" id="col-5">↓</button>
-            <button class="drop-button" id="col-6">↓</button>
-        </div>
+        <div id="results"></div>
     </main>
 </body>
 </html>

@@ -1,12 +1,13 @@
+
 //Credit to Copilot to fixing bugs! If it looks too much like AI, it's probably just bug fixes after school. 
 
 // Get all cells !!!-Credit to Copilot for teaching me querySelector and speeding up the coding process!-!!!
 let cells = document.querySelectorAll(".cell");
 for (let i = 0; i < cells.length; i++) {
     cells[i].classList.add("vacant");
-    addElementForInspection("Class added to cell " + (i + 1));
+    console.log("Class added to cell " + (i + 1));
 }
-addElementForInspection("Cells initialized!")
+console.log("Cells initialized!")
 
 function getCellsInColumn(column) {
     let cellsInColumn = [];
@@ -33,7 +34,7 @@ function getAvailableColumns() {
         for (let i = 0; i < colCells.length; i++) {
             if (colCells[i] && colCells[i].classList.contains("vacant")) {
                 available.push(col);
-                addElementForInspection(available);
+                console.log(available);
                 break;
             }
         }
@@ -47,7 +48,7 @@ function getAvailableColumns() {
 let dropButtons = document.querySelectorAll(".drop-button");
 for (let i = 0; i < dropButtons.length; i++) {
     dropButtons[i].addEventListener("click", beginPlay);
-    addElementForInspection("Event listener added!");
+    console.log("Event listener added!");
 }
 
 // Function to add a disc to the selected column
@@ -77,7 +78,7 @@ function beginPlay(event) {
     // Enemy (yellow) picks a random available column
     let available = getAvailableColumns();
     if (available.length == 0) {
-        addElementForInspection("beginPlay: board full or no available columns for enemy.");
+        console.log("beginPlay: board full or no available columns for enemy.");
         return;
     }
     // Random choice among available columns
@@ -88,7 +89,25 @@ function beginPlay(event) {
     checkRow();
     checkDiagonals();
 }
-//Credit to copilot for bug fixes and comments
+
+function beginAutoPlay() {
+    let available = getAvailableColumns();
+    if (available.length == 0) {
+        console.log("beginPlay: board full or no available columns for enemy.");
+        return;
+    }
+
+    // Random choice among available columns
+    let playerColumnOne = available[Math.floor(Math.random() * available.length)];
+    addDisc(playerColumnOne, 1);
+    // Random choice among available columns
+    let playerColumnTwo = available[Math.floor(Math.random() * available.length)];
+    addDisc(playerColumnTwo, 2);
+    checkColumn();
+    checkRow();
+    checkDiagonals();
+}
+//Credit to Copilot for bug fixes and comments (and me for testing!)
 function checkColumn() {
     // Check vertical wins in each column by scanning from bottom to top
     for (let i = 0; i < 7; i++) {
@@ -97,80 +116,69 @@ function checkColumn() {
         let playerTwoDiscs = 0;
         for (let j = 0; j < colCells.length; j++) {
             let cell = colCells[j];
-            //If undefined or null, continue. Credit to copilot for teaching me something new!
+            //If undefined or null, continue. Credit to Copilot for teaching me something new!
             if (!cell) continue;
 
             if (cell.classList.contains("player1")) {
                 playerOneDiscs++;
                 playerTwoDiscs = 0;
-                addElementForInspection("Checked cell. Player one is one disc closer to a connect 4!");
+                console.log("Checked cell. Player one is one disc closer to a connect 4!");
             } else if (cell.classList.contains("player2")) {
                 playerTwoDiscs++;
                 playerOneDiscs = 0;
-                addElementForInspection("Checked cell. Player two is one disc closer to a connect 4!");
+                console.log("Checked cell. Player two is one disc closer to a connect 4!");
             } else {
                 // empty cell: reset both counters
                 playerOneDiscs = 0;
                 playerTwoDiscs = 0;
-                addElementForInspection("Checked cell. Empty!");
+                console.log("Checked cell. Empty!");
             }
 
             if (playerOneDiscs == 4) {
-                let winningP = document.createElement("p");
-                winningP.innerText = "Player one won with a column!";
-                let main = document.getElementById("main");
-                main.appendChild(winningP);
+                announceWin("Player one won with a column!");
                 return;
             }
             if (playerTwoDiscs == 4) {
-                let winningP = document.createElement("p");
-                winningP.innerText = "Player two won with a column!";
-                let main = document.getElementById("main");
-                main.appendChild(winningP);
+                announceWin("Player two won with a column!");
                 return;
             }
         }
     }
 }
 
+//Credit to me for identifying the glitch, and Copilot for the fix!
 function checkRow() {
-    // Check vertical wins in each column by scanning from bottom to top
+    // Check horizontal wins in each row by scanning left to right
     for (let i = 0; i < 6; i++) {
         let rowCells = getCellsInRow(i);
         let playerOneDiscs = 0;
         let playerTwoDiscs = 0;
         for (let j = 0; j < rowCells.length; j++) {
             let cell = rowCells[j];
-            //If undefined or null, continue. Credit to copilot for teaching me something new!
+            //If undefined or null, continue. Credit to Copilot for teaching me something new!
             if (!cell) continue;
 
             if (cell.classList.contains("player1")) {
                 playerOneDiscs++;
                 playerTwoDiscs = 0;
-                addElementForInspection("Checked cell. Player one is one disc closer to a connect 4!");
+                console.log("Checked cell. Player one is one disc closer to a connect 4!");
             } else if (cell.classList.contains("player2")) {
                 playerTwoDiscs++;
                 playerOneDiscs = 0;
-                addElementForInspection("Checked cell. Player two is one disc closer to a connect 4!");
+                console.log("Checked cell. Player two is one disc closer to a connect 4!");
             } else {
                 // empty cell: reset both counters
                 playerOneDiscs = 0;
                 playerTwoDiscs = 0;
-                addElementForInspection("Checked cell. Empty!");
+                console.log("Checked cell. Empty!");
             }
 
             if (playerOneDiscs == 4) {
-                let winningP = document.createElement("p");
-                winningP.innerText = "Player one won with a row!";
-                let main = document.getElementById("main");
-                main.appendChild(winningP);
+                announceWin("Player one won with a row!");
                 return;
             }
             if (playerTwoDiscs == 4) {
-                let winningP = document.createElement("p");
-                winningP.innerText = "Player two won with a row!";
-                let main = document.getElementById("main");
-                main.appendChild(winningP);
+                announceWin("Player two won with a row!");
                 return;
             }
         }
@@ -257,11 +265,12 @@ function checkDiagonals() {
 // Fixed diagonal detection implementation (credit: Copilot). The original code
 // above is left commented for reference (credit: me).
 
+//Credit to Copilot for suggesting a helper function. Updated by me to append to #results.
 function announceWin(text) {
     let winningP = document.createElement("p");
     winningP.innerText = text;
-    let main = document.getElementById("main");
-    main.appendChild(winningP);
+    let results = document.getElementById("results");
+    results.appendChild(winningP);
 }
 //Sorry if this makes it more Ai-generated than it's supposed to be. I asked it to fix bugs, and my original functions for the check diagonal code are in the comments, if that helps. 
 function checkDiagonals() {
@@ -321,9 +330,18 @@ function checkDiagonals() {
     }
 }
 
-function addElementForInspection(text) {
+function addElementForChromebooks(text) {
     let h1 = document.createElement("h1");
     h1.innerText = text;
     let main = document.getElementById("main");
     main.appendChild(h1);
 }
+
+/* let autoPlay = confirm("Do you want to play the Connect 4 game?");
+if (autoPlay) {
+    while (getAvailableColumns().length > 0) {
+        setTimeout(function() {
+            beginAutoPlay();
+        }, 1000)
+    }
+} */
