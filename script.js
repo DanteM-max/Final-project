@@ -185,85 +185,21 @@ function checkRow() {
     }
 }
 
-//function initializeCellForDiagonal(cellNum) {
-//    let cell1 = cells[cellNum];
-//    let newCellPosibilities = [(cellNum-8),(cellNum-6),(cellNum+6),(cellNum+8)];
-//    let cell2Possibilities = [];
-//    for (let i = 0; i < newCellPosibilities.length; i++) {
-//        cell2Possibilities.push(cells[newCellPosibilities[i]]);
-//    }
-    
-//}
-
-// Previous diagonal-checking code (kept commented for reference). Thanks, Copilot for commenting this out! Also, credit to Copilot for all of the bug fixes related to the diagonals. I was stumped!
-/*
-function initializeCellForDiagonal(cellNum) {
-    let cell1 = cells[cellNum];
-    let newCellPosibilities = [(cellNum-8),(cellNum-6),(cellNum+6),(cellNum+8)];
-    let cell2Possibilities = [];
-    for (let i = 0; i < newCellPosibilities.length; i++) {
-        cell2Possibilities.push(cells[newCellPosibilities[i]]);
-    }
-}
-
-function checkOneDiagonal(cellIndex) {
-    let cellArray1 = [];
-    let cellArray2 = [];
-    let cellArray3 = [];
-    let cellArray4 = [];
-    for (let i = 0; i < 4; i++) {
-        let newClassList = Array.from(cells[(cellIndex) - (i*6)].classList);
-        let lastClass = newClassList[newClassList.length - 1];
-        cellArray1.push(lastClass);
-    }
-    for (let i = 0; i < 4; i++) {
-        let newClassList = Array.from(cells[(cellIndex) - (i*8)].classList);
-        let lastClass = newClassList[newClassList.length - 1];
-        cellArray2.push(lastClass);
-    }
-    for (let i = 0; i < 4; i++) {
-        let newClassList = Array.from(cells[(cellIndex) + (i*6)].classList);
-        let lastClass = newClassList[newClassList.length - 1];
-        cellArray3.push(lastClass);
-    }
-    for (let i = 0; i < 4; i++) {
-        let newClassList = Array.from(cells[(cellIndex) + (i*8)].classList);
-        let lastClass = newClassList[newClassList.length - 1];
-        cellArray4.push(lastClass);
-    }
-    if (cellArray1[0] == "player1" && cellArray1[1] == "player1" && cellArray1[2] == "player1" && cellArray1[3] == "player1" || cellArray2[0] == "player1" && cellArray2[1] == "player1" && cellArray2[2] == "player1" && cellArray2[3] == "player1" || cellArray3[0] == "player1" && cellArray3[1] == "player1" && cellArray3[2] == "player1" && cellArray3[3] == "player1" || cellArray4[0] == "player1" && cellArray4[1] == "player1" && cellArray4[2] == "player1" && cellArray4[3] == "player1") {
-        return "P1";
-    } else if (cellArray1[0] == "player2" && cellArray1[1] == "player2" && cellArray1[2] == "player2" && cellArray1[3] == "player2" || cellArray2[0] == "player2" && cellArray2[1] == "player2" && cellArray2[2] == "player2" && cellArray2[3] == "player2" || cellArray3[0] == "player2" && cellArray3[1] == "player2" && cellArray3[2] == "player2" && cellArray3[3] == "player2" || cellArray4[0] == "player2" && cellArray4[1] == "player2" && cellArray4[2] == "player2" && cellArray4[3] == "player2") {
-        return "P2";
-    } else {
-        return null;
-    }
-}
 
 function checkDiagonals() {
-    for (let i = 0; i < cells.length; i++) {
-        let winningPlayer = checkOneDiagonal(i);
-        if (!winningPlayer) continue;
-        if (winningPlayer == "P1") {
-            let winningP = document.createElement("p");
-            winningP.innerText = "Player one won with a diagonal!";
-            let main = document.getElementById("main");
-            main.appendChild(winningP);
-            return;
-        }
-        if (winningPlayer == "P2") {
-            let winningP = document.createElement("p");
-            winningP.innerText = "Player two won! with a diagonal";
-            let main = document.getElementById("main");
-            main.appendChild(winningP);
-            return;
+    let playerOneDiscs = 0;
+    let playerTwoDiscs = 0;
+
+    for (let r = 0; r < 6; r++) {
+        for (let c = 0; c < 7; c++) {
+            let idx = (r*7) + c;
+            console.log(idx);
+            if (cells[idx].classList.contains("player1") || cells[idx].classList.contains("player2")) {
+                
+            }
         }
     }
 }
-*/
-
-// Fixed diagonal detection implementation (credit: Copilot). The original code
-// above is left commented for reference (credit: me).
 
 //Credit to Copilot for suggesting a helper function. Updated by me to append to #results.
 function announceWin(text) {
@@ -273,62 +209,7 @@ function announceWin(text) {
     results.appendChild(winningP);
 }
 //Sorry if this makes it more Ai-generated than it's supposed to be. I asked it to fix bugs, and my original functions for the check diagonal code are in the comments, if that helps. 
-function checkDiagonals() {
-  // board is 7 columns (0..6) and 6 rows (0..5)
-  // DOWN-RIGHT diagonals (r -> r+3, c -> c+3) : start rows 0..2, cols 0..3
-  for (let r = 0; r <= 2; r++) {
-    for (let c = 0; c <= 3; c++) {
-      let idx = r * 7 + c;
-      // player1
-      if (
-        cells[idx] && cells[idx].classList.contains("player1") &&
-        cells[idx + 8] && cells[idx + 8].classList.contains("player1") &&
-        cells[idx + 16] && cells[idx + 16].classList.contains("player1") &&
-        cells[idx + 24] && cells[idx + 24].classList.contains("player1")
-      ) {
-        announceWin("Player one won with a diagonal!");
-        return;
-      }
-      // player2
-      if (
-        cells[idx] && cells[idx].classList.contains("player2") &&
-        cells[idx + 8] && cells[idx + 8].classList.contains("player2") &&
-        cells[idx + 16] && cells[idx + 16].classList.contains("player2") &&
-        cells[idx + 24] && cells[idx + 24].classList.contains("player2")
-      ) {
-        announceWin("Player two won with a diagonal!");
-        return;
-      }
-    }
-  }
 
-  // UP-RIGHT diagonals (r -> r-3, c -> c+3) : start rows 3..5, cols 0..3
-  for (let r = 3; r <= 5; r++) {
-    for (let c = 0; c <= 3; c++) {
-      let idx = r * 7 + c;
-      // player1
-      if (
-        cells[idx] && cells[idx].classList.contains("player1") &&
-        cells[idx - 6] && cells[idx - 6].classList.contains("player1") &&
-        cells[idx - 12] && cells[idx - 12].classList.contains("player1") &&
-        cells[idx - 18] && cells[idx - 18].classList.contains("player1")
-      ) {
-        announceWin("Player one won with a diagonal!");
-        return;
-      }
-      // player2
-      if (
-        cells[idx] && cells[idx].classList.contains("player2") &&
-        cells[idx - 6] && cells[idx - 6].classList.contains("player2") &&
-        cells[idx - 12] && cells[idx - 12].classList.contains("player2") &&
-        cells[idx - 18] && cells[idx - 18].classList.contains("player2")
-      ) {
-        announceWin("Player two won with a diagonal!");
-        return;
-      }
-        }
-    }
-}
 
 function addElementForChromebooks(text) {
     let h1 = document.createElement("h1");
