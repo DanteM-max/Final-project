@@ -184,19 +184,46 @@ function checkRow() {
         }
     }
 }
-
+//Use confirm to reset the game after someone wins 
 
 function checkDiagonals() {
-    let playerOneDiscs = 0;
-    let playerTwoDiscs = 0;
+    //negative slope
+    for (let i = 0; i < cells.length; i++) {
+        if (
+            cells[i] && cells[i].classList.contains("player1") &&
+            cells[i+8] && cells[i+8].classList.contains("player1") &&
+            cells[i+16] && cells[i+16].classList.contains("player1") &&
+            cells[i+24] && cells[i+24].classList.contains("player1")
+        ) {
+            announceWin("Player 1 won with a diagonal!")
+        }
 
-    for (let r = 0; r < 6; r++) {
-        for (let c = 0; c < 7; c++) {
-            let idx = (r*7) + c;
-            console.log(idx);
-            if (cells[idx].classList.contains("player1") || cells[idx].classList.contains("player2")) {
+        if (
+            cells[i] && cells[i].classList.contains("player2") &&
+            cells[i+8] && cells[i+8].classList.contains("player2") &&
+            cells[i+16] && cells[i+16].classList.contains("player2") &&
+            cells[i+24] && cells[i+24].classList.contains("player2")
+        ) {
+            announceWin("Player 2 won with a diagonal!")
+        }
 
-            }
+        //positive slope
+        if (
+            cells[i] && cells[i].classList.contains("player1") &&
+            cells[i-6] && cells[i-6].classList.contains("player1") &&
+            cells[i-12] && cells[i-12].classList.contains("player1") &&
+            cells[i-18] && cells[i-18].classList.contains("player1")
+        ) {
+            announceWin("Player 1 won with a diagonal!")
+        }
+
+        if (
+            cells[i] && cells[i].classList.contains("player2") &&
+            cells[i-6] && cells[i-6].classList.contains("player2") &&
+            cells[i-12] && cells[i-12].classList.contains("player2") &&
+            cells[i-18] && cells[i-18].classList.contains("player2")
+        ) {
+            announceWin("Player 2 won with a diagonal!")
         }
     }
 }
@@ -204,9 +231,19 @@ function checkDiagonals() {
 //Credit to Copilot for suggesting a helper function. Updated by me to append to #results.
 function announceWin(text) {
     let winningP = document.createElement("p");
-    winningP.innerText = text;
-    let results = document.getElementById("results");
-    results.appendChild(winningP);
+        winningP.innerText = text;
+        let results = document.getElementById("results");
+        results.appendChild(winningP);
+        localStorage.setItem()
+    setTimeout(function() {
+        
+        if (confirm("Do you want to reset the board now?")) {
+            for (let i = 0; i < cells.length; i++) {
+                cells[i].classList.replace("player1","vacant");
+                cells[i].classList.replace("player2","vacant");
+            }
+        }
+    },1000)
 }
 //Sorry if this makes it more Ai-generated than it's supposed to be. I asked it to fix bugs, and my original functions for the check diagonal code are in the comments, if that helps. 
 
@@ -226,3 +263,23 @@ if (autoPlay) {
         }, 1000)
     }
 } */
+
+function getIdFromRowAndCol(row,col) {
+    return (row*7) + col;
+}
+
+function getRowFromId(id) {
+    return Math.floor(id / 7);
+}
+
+function getColFromId(id) {
+    return id % 7;
+}
+
+function getNextId(id,increment) {
+    return getIdFromRowAndCol(getRowFromId(id+increment),getColFromId(id+increment));
+}
+
+function getPreviousId(id,increment) {
+    return getIdFromRowAndCol(getRowFromId(id-increment),getColFromId(id-increment));
+}
