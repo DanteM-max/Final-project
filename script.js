@@ -19,7 +19,7 @@ function getCellsInColumn(column) {
 
 function getCellsInRow(row) {
     let cellsInRow = [];
-    for (let i = row; i < ((row*7)+7); i++) {
+    for (let i = (row*7); i < ((row*7)+7); i++) {
         cellsInRow.push(cells[i]);
     }
     return cellsInRow;
@@ -195,7 +195,7 @@ function checkDiagonals() {
             let idx = (r*7) + c;
             console.log(idx);
             if (cells[idx].classList.contains("player1") || cells[idx].classList.contains("player2")) {
-                
+
             }
         }
     }
