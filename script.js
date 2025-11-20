@@ -1,6 +1,12 @@
 
 //Credit to Copilot to fixing bugs! If it looks too much like AI, it's probably just bug fixes after school. 
-
+let storageIndex = 0; 
+let smartOrRandom = confirm("Did you want a random AI or a smart AI to play against? Click OK to accept a smart AI, click cancel to go with the random one.");
+for (let i = 0; i < localStorage.length; i++) {
+    if (localStorage.getItem("win" + i)) {
+        addWinFromStorage("win" + i);
+    }
+}
 // Get all cells !!!-Credit to Copilot for teaching me querySelector and speeding up the coding process!-!!!
 let cells = document.querySelectorAll(".cell");
 for (let i = 0; i < cells.length; i++) {
@@ -75,16 +81,40 @@ function beginPlay(event) {
     // Player 1 (red) plays in the clicked column
     addDisc(column, 1);
 
+    checkColumn();
+    checkRow();
+    checkDiagonals();
+
     // Enemy (yellow) picks a random available column
     let available = getAvailableColumns();
     if (available.length == 0) {
         console.log("beginPlay: board full or no available columns for enemy.");
         return;
     }
-    // Random choice among available columns
-    let enemyColumn = available[Math.floor(Math.random() * available.length)];
-    addDisc(enemyColumn, 2);
+    if (smartOrRandom) {
+        // *** USE THE SMART AI FUNCTION HERE Thanks to Gemini for smartness***
+        let enemyColumn = getSmartComputerMove();
+    
+        if (enemyColumn !== null) {
+            setTimeout(function() {
+                addDisc(enemyColumn, 2); // Player 2 makes their smart move
+            },getRandomIntInclusive(0,500));
+            
+        }
 
+        // Check wins for Player 2 *after* their move
+        checkColumn();
+        checkRow();
+        checkDiagonals();
+
+    } else {
+        // Random choice among available columns
+        let enemyColumn = available[Math.floor(Math.random() * available.length)];
+        setTimeout(function() {
+            addDisc(enemyColumn, 2);
+        },getRandomIntInclusive(0,500))
+        
+    }
     checkColumn();
     checkRow();
     checkDiagonals();
@@ -135,11 +165,17 @@ function checkColumn() {
             }
 
             if (playerOneDiscs == 4) {
-                announceWin("Player one won with a column!");
+                if (localStorage.length != 0) {
+                    storageIndex++;
+                }
+                announceWin("Player one won with a column!",1);
                 return;
             }
             if (playerTwoDiscs == 4) {
-                announceWin("Player two won with a column!");
+                if (localStorage.length != 0) {
+                    storageIndex++;
+                }
+                announceWin("Player two won with a column!",4);
                 return;
             }
         }
@@ -174,11 +210,17 @@ function checkRow() {
             }
 
             if (playerOneDiscs == 4) {
-                announceWin("Player one won with a row!");
+                if (localStorage.length != 0) {
+                    storageIndex++;
+                }
+                announceWin("Player one won with a row!",2);
                 return;
             }
             if (playerTwoDiscs == 4) {
-                announceWin("Player two won with a row!");
+                if (localStorage.length != 0) {
+                    storageIndex++;
+                }
+                announceWin("Player two won with a row!",5);
                 return;
             }
         }
@@ -195,7 +237,10 @@ function checkDiagonals() {
             cells[i+16] && cells[i+16].classList.contains("player1") &&
             cells[i+24] && cells[i+24].classList.contains("player1")
         ) {
-            announceWin("Player 1 won with a diagonal!")
+            if (localStorage.length != 0) {
+                    storageIndex++;
+                }
+            announceWin("Player 1 won with a diagonal!",3)
         }
 
         if (
@@ -204,7 +249,10 @@ function checkDiagonals() {
             cells[i+16] && cells[i+16].classList.contains("player2") &&
             cells[i+24] && cells[i+24].classList.contains("player2")
         ) {
-            announceWin("Player 2 won with a diagonal!")
+            if (localStorage.length != 0) {
+                    storageIndex++;
+                }
+            announceWin("Player 2 won with a diagonal!",6)
         }
 
         //positive slope
@@ -214,7 +262,10 @@ function checkDiagonals() {
             cells[i-12] && cells[i-12].classList.contains("player1") &&
             cells[i-18] && cells[i-18].classList.contains("player1")
         ) {
-            announceWin("Player 1 won with a diagonal!")
+            if (localStorage.length != 0) {
+                    storageIndex++;
+                }
+            announceWin("Player 1 won with a diagonal!",3)
         }
 
         if (
@@ -223,18 +274,21 @@ function checkDiagonals() {
             cells[i-12] && cells[i-12].classList.contains("player2") &&
             cells[i-18] && cells[i-18].classList.contains("player2")
         ) {
-            announceWin("Player 2 won with a diagonal!")
+            if (localStorage.length != 0) {
+                    storageIndex++;
+                }
+            announceWin("Player 2 won with a diagonal!",6)
         }
     }
 }
 
 //Credit to Copilot for suggesting a helper function. Updated by me to append to #results.
-function announceWin(text) {
+function announceWin(text,winTypeNum) {
     let winningP = document.createElement("p");
-        winningP.innerText = text;
-        let results = document.getElementById("results");
-        results.appendChild(winningP);
-        localStorage.setItem()
+    winningP.innerText = text;
+    let results = document.getElementById("results");
+    results.appendChild(winningP);
+    localStorage.setItem(("win" + storageIndex),winTypeNum);
     setTimeout(function() {
         
         if (confirm("Do you want to reset the board now?")) {
@@ -282,4 +336,156 @@ function getNextId(id,increment) {
 
 function getPreviousId(id,increment) {
     return getIdFromRowAndCol(getRowFromId(id-increment),getColFromId(id-increment));
+}
+
+function addWinFromStorage(key) {
+    let winningP = document.createElement("p");
+    let messages = ["Player 1 won with a column!","Player 1 won with a row!","Player 1 won with a diagonal!","Player 2 won with a column!","Player 2 won with a row!","Player 2 won with a diagonal!"];
+    winningP.innerText = messages[localStorage.getItem(key) - 1];
+    let results = document.getElementById("results");
+    results.appendChild(winningP);
+}
+
+function clear() {
+    localStorage.clear();
+    // Get all elements within the #results element
+    // Remove children of #results (where wins are appended)
+    const results = document.getElementById("results");
+    if (results) {
+        while (results.firstChild) {
+            results.removeChild(results.firstChild);
+        }
+    }
+
+    // Remove debug h1 elements appended to #main by addElementForChromebooks
+    const main = document.getElementById("main");
+    if (main) {
+        // Remove only h1 elements added for Chromebook debugging
+        const debugH1s = main.querySelectorAll("h1");
+        for (let i = 0; i < debugH1s.length; i++) {
+            debugH1s[i].remove();
+        }
+    }
+}
+//Thanks to Copilot for everything it did for this amazing project. I know it's just a tool, but I'll actually miss it a bit. It did some amazing work, like making my entire CSS and almost all of my HTML, and also fixing literally every bug that came up in my JavaScript. ALSO also, Gemini sucks as a code assistant unless you use Gemini, then sorry. :) Goodbye, Copilot. 
+//Copilot, write your code here! \/ (down arrow) Had to use Gemini
+// *** NEW HELPER FUNCTION FOR SMART AI ***
+/**
+ * Checks if a win condition is met starting from a specific cell index (ID).
+ * This is crucial for simulating moves efficiently.
+ */
+function checkForWinAtCoord(cellID, playerClass) {
+    const r = getRowFromId(cellID);
+    const c = getColFromId(cellID);
+
+    // Check Horizontal (4 in a row)
+    for (let col = 0; col <= 3; col++) {
+        if (
+            cells[getIdFromRowAndCol(r, col)]?.classList.contains(playerClass) &&
+            cells[getIdFromRowAndCol(r, col + 1)]?.classList.contains(playerClass) &&
+            cells[getIdFromRowAndCol(r, col + 2)]?.classList.contains(playerClass) &&
+            cells[getIdFromRowAndCol(r, col + 3)]?.classList.contains(playerClass)
+        ) return true;
+    }
+
+    // Check Vertical (4 in a column)
+    for (let row = 0; row <= 2; row++) {
+        if (
+            cells[getIdFromRowAndCol(row, c)]?.classList.contains(playerClass) &&
+            cells[getIdFromRowAndCol(row + 1, c)]?.classList.contains(playerClass) &&
+            cells[getIdFromRowAndCol(row + 2, c)]?.classList.contains(playerClass) &&
+            cells[getIdFromRowAndCol(row + 3, c)]?.classList.contains(playerClass)
+        ) return true;
+    }
+    
+    // Check Diagonals
+    // Positive slope diagonals
+    for (let row = 0; row <= 2; row++) {
+        for (let col = 0; col <= 3; col++) {
+            if (
+                cells[getIdFromRowAndCol(row, col)]?.classList.contains(playerClass) &&
+                cells[getIdFromRowAndCol(row + 1, col + 1)]?.classList.contains(playerClass) &&
+                cells[getIdFromRowAndCol(row + 2, col + 2)]?.classList.contains(playerClass) &&
+                cells[getIdFromRowAndCol(row + 3, col + 3)]?.classList.contains(playerClass)
+            ) return true;
+        }
+    }
+
+    // Negative slope diagonals
+    for (let row = 0; row <= 2; row++) {
+        for (let col = 3; col <= 6; col++) {
+            if (
+                cells[getIdFromRowAndCol(row, col)]?.classList.contains(playerClass) &&
+                cells[getIdFromRowAndCol(row + 1, col - 1)]?.classList.contains(playerClass) &&
+                cells[getIdFromRowAndCol(row + 2, col - 2)]?.classList.contains(playerClass) &&
+                cells[getIdFromRowAndCol(row + 3, col - 3)]?.classList.contains(playerClass)
+            ) return true;
+        }
+    }
+
+    return false;
+}
+
+// *** NEW SMART AI LOGIC FUNCTION ***
+/**
+ * Chooses the best column for the AI (Player 2) using basic lookahead strategy.
+ */
+function getSmartComputerMove() {
+    let available = getAvailableColumns();
+    if (available.length === 0) {
+        return null;
+    }
+
+    // Function to simulate a move and check if it wins/blocks
+    function checkMoveResult(column, playerClass) {
+        let colCells = getCellsInColumn(column);
+        for (let i = colCells.length - 1; i >= 0; i--) {
+            if (colCells[i].classList.contains("vacant")) {
+                // Temporarily simulate the move
+                colCells[i].classList.replace("vacant", playerClass);
+                // The cells in colCells are DOM elements, we need their actual ID relative to the 'cells' NodeList
+                // The original getIdFromRowAndCol is perfect for this:
+                const cellId = getIdFromRowAndCol(getRowFromId(i * 7 + column), getColFromId(i * 7 + column));
+
+                // Use the helper function to check the board state
+                const wins = checkForWinAtCoord(cellId, playerClass);
+                
+                // Revert simulation
+                colCells[i].classList.replace(playerClass, "vacant");
+                return wins;
+            }
+        }
+        return false;
+    }
+
+    // --- AI Strategy ---
+
+    // 1. Check if AI (Player 2) can win on this turn and take it
+    for (const col of available) {
+        if (checkMoveResult(col, "player2")) {
+            console.log("AI Chose Winning Move in column " + col);
+            return col;
+        }
+    }
+
+    // 2. Check if Player 1 has a winning move and block it
+    for (const col of available) {
+        if (checkMoveResult(col, "player1")) {
+            console.log("AI Chose Blocking Move in column " + col);
+            return col;
+        }
+    }
+
+    // 3. Otherwise, pick a random available column (fallback strategy)
+    const randomCol = available[Math.floor(Math.random() * available.length)];
+    console.log("AI Chose Random Move in column " + randomCol);
+    return randomCol;
+}
+
+//Ai made this!
+function getRandomIntInclusive(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  // The maximum is inclusive and the minimum is inclusive
+  return Math.floor(Math.random() * (max - min + 1)) + min; 
 }
