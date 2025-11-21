@@ -81,10 +81,6 @@ function beginPlay(event) {
     // Player 1 (red) plays in the clicked column
     addDisc(column, 1);
 
-    checkColumn();
-    checkRow();
-    checkDiagonals();
-
     // Enemy (yellow) picks a random available column
     let available = getAvailableColumns();
     if (available.length == 0) {
@@ -101,11 +97,6 @@ function beginPlay(event) {
             },getRandomIntInclusive(0,500));
             
         }
-
-        // Check wins for Player 2 *after* their move
-        checkColumn();
-        checkRow();
-        checkDiagonals();
 
     } else {
         // Random choice among available columns
@@ -346,25 +337,12 @@ function addWinFromStorage(key) {
     results.appendChild(winningP);
 }
 
-function clear() {
+function clearWins() {
+    console.log("cleared elements!")
     localStorage.clear();
-    // Get all elements within the #results element
-    // Remove children of #results (where wins are appended)
     const results = document.getElementById("results");
     if (results) {
-        while (results.firstChild) {
-            results.removeChild(results.firstChild);
-        }
-    }
-
-    // Remove debug h1 elements appended to #main by addElementForChromebooks
-    const main = document.getElementById("main");
-    if (main) {
-        // Remove only h1 elements added for Chromebook debugging
-        const debugH1s = main.querySelectorAll("h1");
-        for (let i = 0; i < debugH1s.length; i++) {
-            debugH1s[i].remove();
-        }
+        results.innerHTML = "";
     }
 }
 //Thanks to Copilot for everything it did for this amazing project. I know it's just a tool, but I'll actually miss it a bit. It did some amazing work, like making my entire CSS and almost all of my HTML, and also fixing literally every bug that came up in my JavaScript. ALSO also, Gemini sucks as a code assistant unless you use Gemini, then sorry. :) Goodbye, Copilot. 
@@ -488,4 +466,11 @@ function getRandomIntInclusive(min, max) {
   max = Math.floor(max);
   // The maximum is inclusive and the minimum is inclusive
   return Math.floor(Math.random() * (max - min + 1)) + min; 
+}
+
+function getCellClasses() {
+    let classArray = [];
+    for (let i = 0; i < cells.length; i++) {
+        
+    }
 }
