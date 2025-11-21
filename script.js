@@ -471,6 +471,21 @@ function getRandomIntInclusive(min, max) {
 function getCellClasses() {
     let classArray = [];
     for (let i = 0; i < cells.length; i++) {
-        
+        if (cells[i].classList.contains("vacant")) {
+            classArray.push("vacant");
+        } else if (cells[i].classList.contains("player1")) {
+            classArray.push("player1");
+        } else {
+            classArray.push("player2");
+        }
+    }
+    return classArray;
+}
+
+function addClassesToStorage() {
+    for (let i = 0; i < getCellClasses().length; i++) {
+        console.log(("cell" + i));
+        console.log(getCellClasses()[i]);
+        localStorage.setItem(("cell" + i), getCellClasses()[i]);
     }
 }
