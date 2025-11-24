@@ -110,3 +110,13 @@ main {
     font-size: 20px;
     cursor: pointer;
 }
+
+#ai-checkbox {
+    cursor: pointer;
+    height: 35px;
+    width: 35px;
+}
+
+#ai-label {
+    font-size: 3em;
+}

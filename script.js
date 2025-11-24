@@ -1,7 +1,8 @@
 
 //Credit to Copilot to fixing bugs! If it looks too much like AI, it's probably just bug fixes after school. 
 let storageIndex = 0; 
-let smartOrRandom = confirm("Did you want a random AI or a smart AI to play against? Click OK to accept a smart AI, click cancel to go with the random one.");
+let smartOrRandom = false;
+let aiCheckbox = document.getElementById("ai-checkbox");
 for (let i = 0; i < localStorage.length; i++) {
     if (localStorage.getItem("win" + i)) {
         addWinFromStorage("win" + i);
@@ -94,6 +95,9 @@ function beginPlay(event) {
         if (enemyColumn !== null) {
             setTimeout(function() {
                 addDisc(enemyColumn, 2); // Player 2 makes their smart move
+                checkColumn();
+                checkRow();
+                checkDiagonals();
             },getRandomIntInclusive(0,500));
             
         }
@@ -103,6 +107,9 @@ function beginPlay(event) {
         let enemyColumn = available[Math.floor(Math.random() * available.length)];
         setTimeout(function() {
             addDisc(enemyColumn, 2);
+            checkColumn();
+            checkRow();
+            checkDiagonals();
         },getRandomIntInclusive(0,500))
         
     }
@@ -488,4 +495,9 @@ function addClassesToStorage() {
         console.log(getCellClasses()[i]);
         localStorage.setItem(("cell" + i), getCellClasses()[i]);
     }
+}
+
+function updateAiBool() {
+    smartOrRandom = aiCheckbox.checked;
+    console.log(smartOrRandom);
 }
