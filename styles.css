@@ -120,3 +120,14 @@ main {
 #ai-label {
     font-size: 3em;
 }
+
+/*AI MADE*/
+.winning-move-highlight {
+    /* A yellow glow effect */
+    animation: glow 0.25s infinite alternate ease;
+}
+
+@keyframes glow {
+    from { box-shadow: 0 0 5px 2px rgb(100, 100, 0); }
+    to { box-shadow: 0 0 15px 5px rgba(255, 255, 0, 0.9); }
+}

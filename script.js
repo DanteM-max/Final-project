@@ -1,4 +1,3 @@
-
 //Credit to Copilot to fixing bugs! If it looks too much like AI, it's probably just bug fixes after school. 
 let storageIndex = 0; 
 let smartOrRandom = false;
@@ -118,23 +117,7 @@ function beginPlay(event) {
     checkDiagonals();
 }
 
-function beginAutoPlay() {
-    let available = getAvailableColumns();
-    if (available.length == 0) {
-        console.log("beginPlay: board full or no available columns for enemy.");
-        return;
-    }
 
-    // Random choice among available columns
-    let playerColumnOne = available[Math.floor(Math.random() * available.length)];
-    addDisc(playerColumnOne, 1);
-    // Random choice among available columns
-    let playerColumnTwo = available[Math.floor(Math.random() * available.length)];
-    addDisc(playerColumnTwo, 2);
-    checkColumn();
-    checkRow();
-    checkDiagonals();
-}
 //Credit to Copilot for bug fixes and comments (and me for testing!)
 function checkColumn() {
     // Check vertical wins in each column by scanning from bottom to top
@@ -307,14 +290,6 @@ function addElementForChromebooks(text) {
     main.appendChild(h1);
 }
 
-/* let autoPlay = confirm("Do you want to play the Connect 4 game?");
-if (autoPlay) {
-    while (getAvailableColumns().length > 0) {
-        setTimeout(function() {
-            beginAutoPlay();
-        }, 1000)
-    }
-} */
 
 function getIdFromRowAndCol(row,col) {
     return (row*7) + col;
@@ -370,7 +345,13 @@ function checkForWinAtCoord(cellID, playerClass) {
             cells[getIdFromRowAndCol(r, col + 1)]?.classList.contains(playerClass) &&
             cells[getIdFromRowAndCol(r, col + 2)]?.classList.contains(playerClass) &&
             cells[getIdFromRowAndCol(r, col + 3)]?.classList.contains(playerClass)
-        ) return true;
+        ) {
+            cells[getIdFromRowAndCol(r, col)].classList.add("winning-move-highlight");
+            cells[getIdFromRowAndCol(r, col+1)].classList.add("winning-move-highlight");
+            cells[getIdFromRowAndCol(r, col+2)].classList.add("winning-move-highlight");
+            cells[getIdFromRowAndCol(r, col+3)].classList.add("winning-move-highlight");
+            return true
+        };
     }
 
     // Check Vertical (4 in a column)
@@ -501,3 +482,4 @@ function updateAiBool() {
     smartOrRandom = aiCheckbox.checked;
     console.log(smartOrRandom);
 }
+
